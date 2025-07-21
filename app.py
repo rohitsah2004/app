@@ -17,29 +17,29 @@ def validate_input(weight, dose):
     return True
 
 def calculate_tepezza(weight, dose_per_kg):
-    total_dose = weight * dose_per_kg
-    volume_required = total_dose / 47.6
+    total_dose = int(weight * dose_per_kg)
+    volume_required = int(total_dose / 47.6)
     vials_needed = math.ceil(total_dose / 500)
     iv_bag_size = "100 mL" if total_dose <= 1800 else "250 mL"
     ns_bag_volume = 100 if total_dose <= 1800 else 250
-    remaining_ns = ns_bag_volume - volume_required
+    remaining_ns = int(ns_bag_volume - volume_required)
 
     return f"""
 📊 **PATIENT INFORMATION**  
-• Weight: {weight:.1f} kg  
-• Prescribed Dose: {dose_per_kg:.1f} mg/kg  
+• Weight: {int(weight)} kg  
+• Prescribed Dose: {int(dose_per_kg)} mg/kg  
 
 💊 **DOSAGE CALCULATIONS**  
-• Total Dose: {total_dose:.1f} mg  
-• Volume Required: {volume_required:.1f} mL  
+• Total Dose: {total_dose} mg  
+• Volume Required: {volume_required} mL  
 • Vials Needed: {vials_needed}  
 • IV Bag Size: {iv_bag_size}  
 
 🧪 **PREPARATION STEPS**  
 1. Use a {iv_bag_size} 0.9% Sodium Chloride bag  
-2. Withdraw {volume_required:.1f} mL from the bag  
+2. Withdraw {volume_required} mL from the bag  
 3. Inject 10 mL of SWFI into each of the {vials_needed} vial(s)  
-4. Return {volume_required:.1f} mL to the remaining {remaining_ns:.1f} mL in the NS bag  
+4. Return {volume_required} mL to the remaining {remaining_ns} mL in the NS bag  
 
 ⚠️ **NOTES**  
 • Concentration: 47.6 mg/mL  
@@ -48,8 +48,8 @@ def calculate_tepezza(weight, dose_per_kg):
 """
 
 def calculate_remicade(weight, dose_per_kg, infusion_type):
-    total_dose = weight * dose_per_kg
-    volume_required = total_dose / 10
+    total_dose = int(weight * dose_per_kg)
+    volume_required = int(total_dose / 10)
     vials_needed = math.ceil(total_dose / 100)
 
     if total_dose > 2000:
@@ -62,7 +62,7 @@ def calculate_remicade(weight, dose_per_kg, infusion_type):
         iv_bag_size = "250 mL"
         bag_volume = 250
 
-    remaining_volume = bag_volume - volume_required
+    remaining_volume = int(bag_volume - volume_required)
 
     if infusion_type == "Induction":
         if bag_volume == 250:
@@ -81,21 +81,21 @@ def calculate_remicade(weight, dose_per_kg, infusion_type):
 
     return f"""
 📊 **PATIENT INFORMATION**  
-• Weight: {weight:.1f} kg  
-• Prescribed Dose: {dose_per_kg:.1f} mg/kg  
+• Weight: {int(weight)} kg  
+• Prescribed Dose: {int(dose_per_kg)} mg/kg  
 • Infusion Type: {infusion_type}  
 
 💉 **DOSAGE CALCULATIONS**  
-• Total Dose: {total_dose:.1f} mg  
-• Volume Required: {volume_required:.1f} mL  
+• Total Dose: {total_dose} mg  
+• Volume Required: {volume_required} mL  
 • Vials Needed: {vials_needed}  
 • IV Bag Size: {iv_bag_size}  
 
 🧪 **PREPARATION STEPS**  
 1. Use a {iv_bag_size} 0.9% Sodium Chloride bag  
-2. Withdraw {volume_required:.1f} mL using 21g needle  
+2. Withdraw {volume_required} mL using 21g needle  
 3. Inject 10 mL NS into each of the {vials_needed} vial(s)  
-4. Return {volume_required:.1f} mL to the remaining {remaining_volume:.1f} mL in the NS bag  
+4. Return {volume_required} mL to the remaining {remaining_volume} mL in the NS bag  
 5. Attach 0.2-micron filtered tubing  
 
 ⚠️ **INFUSION INSTRUCTIONS**  
@@ -108,49 +108,49 @@ def calculate_remicade(weight, dose_per_kg, infusion_type):
 """
 
 def calculate_benlysta(weight):
-    dose = weight * 10
+    dose = int(weight * 10)
     v400 = int(dose // 400)
     remaining = dose - (v400 * 400)
     v120 = math.ceil(remaining / 120) if remaining > 0 else 0
     total_mg = (v400 * 400) + (v120 * 120)
     waste = total_mg - dose
-    total_volume = (v400 * 5) + (v120 * 1.5)
+    total_volume = int((v400 * 5) + (v120 * 1.5))
 
     bag_size = 250 if weight > 40 else 100
-    remaining_ns = bag_size - total_volume
+    remaining_ns = int(bag_size - total_volume)
 
     return f"""
 📊 **PATIENT INFORMATION**  
-• Weight: {weight:.1f} kg  
+• Weight: {int(weight)} kg  
 • Prescribed Dose: 10 mg/kg  
 
 💊 **DOSAGE CALCULATIONS**  
-• Total Dose: {dose:.1f} mg  
+• Total Dose: {dose} mg  
 • Vials Needed: {v400} x 400 mg and {v120} x 120 mg  
-• Total Volume: {total_volume:.2f} mL  
-• Waste: {waste:.1f} mg  
+• Total Volume: {total_volume} mL  
+• Waste: {waste} mg  
 • NS Bag: {bag_size} mL  
 
 🧪 **PREPARATION STEPS**  
 1. Use a {bag_size} mL 0.9% Sodium Chloride bag  
-2. Withdraw and discard {total_volume:.2f} mL from NS bag  
+2. Withdraw and discard {total_volume} mL from NS bag  
 3. Reconstitute each 400 mg vial with 4.8 mL SWFI (final = 5 mL)  
 4. Reconstitute each 120 mg vial with 1.5 mL SWFI (final = 1.5 mL)  
-5. Withdraw {total_volume:.2f} mL from vials and add to remaining {remaining_ns:.2f} mL NS  
+5. Withdraw {total_volume} mL from vials and add to remaining {remaining_ns} mL NS  
 6. ✅ **Protect from light with an amber IV cover bag**  
 7. Attach non-filtered tubing  
 8. Infuse over 1 hour at a rate of {bag_size} mL/hr  
 """
 
 with st.form("dose_form"):
-    weight = st.number_input("Patient Weight (kg)", min_value=0.0, format="%.1f")
+    weight = st.number_input("Patient Weight (kg)", min_value=0.0, format="%.0f")
     dose = 0
     infusion_type = ""
 
     if tab == "Tepezza":
-        dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.1f")
+        dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.0f")
     elif tab == "Remicade":
-        dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.1f")
+        dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.0f")
         infusion_type = st.selectbox("Select Infusion Type", ["", "Induction", "Standard", "Enhanced"])
 
     submitted = st.form_submit_button("🧮 Calculate")
