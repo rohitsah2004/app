@@ -66,14 +66,34 @@ def calculate_remicade(weight, dose_per_kg, infusion_type):
 
     if infusion_type == "Induction":
         if bag_volume == 250:
-            rate_info = "Start at 10 mL/hr for 15 min → 20 mL/hr → 40 → 80 → 150 (30 min) → 250 mL/hr remainder"
+            rate_info = """
+Start at 10 mL/hr for 15 min  
+Titrate to 20 mL/hr for 15 min  
+Titrate to 40 mL/hr for 15 min  
+Titrate to 80 mL/hr for 15 min  
+Titrate to 150 mL/hr for 30 min  
+Titrate to 250 mL/hr for the remainder
+"""
         else:
-            rate_info = "Start at 20 mL/hr for 15 min → 40 → 80 → 160 → 300 (30 min) → 500 mL/hr remainder"
+            rate_info = """
+Start at 20 mL/hr for 15 min  
+Titrate to 40 mL/hr for 15 min  
+Titrate to 80 mL/hr for 15 min  
+Titrate to 160 mL/hr for 15 min  
+Titrate to 300 mL/hr for 30 min  
+Titrate to 500 mL/hr for the remainder
+"""
     elif infusion_type == "Enhanced":
         if bag_volume == 250:
-            rate_info = "100 mL/hr for 15 min, then increase to 300 mL/hr for remainder"
+            rate_info = """
+100 mL/hr for 15 min  
+Then increase to 300 mL/hr for remainder
+"""
         else:
-            rate_info = "200 mL/hr for 15 min, then increase to 600 mL/hr for remainder"
+            rate_info = """
+200 mL/hr for 15 min  
+Then increase to 600 mL/hr for remainder
+"""
     elif infusion_type == "Standard":
         rate_info = "Infuse over 2 hours at 125 mL/hr"
     else:
