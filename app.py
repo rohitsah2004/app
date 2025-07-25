@@ -17,17 +17,17 @@ def validate_input(weight, dose):
     return True
 
 def calculate_tepezza(weight, dose_per_kg):
-    total_dose = int(weight * dose_per_kg)
-    volume_required = int(total_dose / 47.6)
+    total_dose = round(weight * dose_per_kg, 1)
+    volume_required = round(total_dose / 47.6, 1)
     vials_needed = math.ceil(total_dose / 500)
     iv_bag_size = "100 mL" if total_dose <= 1800 else "250 mL"
     ns_bag_volume = 100 if total_dose <= 1800 else 250
-    remaining_ns = int(ns_bag_volume - volume_required)
+    remaining_ns = round(ns_bag_volume - volume_required, 1)
 
     return f"""
 📊 **PATIENT INFORMATION**  
-• Weight: {int(weight)} kg  
-• Prescribed Dose: {int(dose_per_kg)} mg/kg  
+• Weight: {weight:.1f} kg  
+• Prescribed Dose: {dose_per_kg:.1f} mg/kg  
 
 💊 **DOSAGE CALCULATIONS**  
 • Total Dose: {total_dose} mg  
@@ -48,8 +48,8 @@ def calculate_tepezza(weight, dose_per_kg):
 """
 
 def calculate_remicade(weight, dose_per_kg, infusion_type):
-    total_dose = int(weight * dose_per_kg)
-    volume_required = int(total_dose / 10)
+    total_dose = round(weight * dose_per_kg, 1)
+    volume_required = round(total_dose / 10, 1)
     vials_needed = math.ceil(total_dose / 100)
 
     if total_dose > 2000:
@@ -62,7 +62,7 @@ def calculate_remicade(weight, dose_per_kg, infusion_type):
         iv_bag_size = "250 mL"
         bag_volume = 250
 
-    remaining_volume = int(bag_volume - volume_required)
+    remaining_volume = round(bag_volume - volume_required, 1)
 
     if infusion_type == "Induction":
         if bag_volume == 250:
@@ -95,14 +95,17 @@ Then increase to 300 mL/hr for remainder
 Then increase to 600 mL/hr for remainder
 """
     elif infusion_type == "Standard":
-        rate_info = "Infuse over 2 hours at 125 mL/hr"
+        rate_info = """
+Infuse entire volume over 2 hours  
+Rate: {bag_volume / 2:.1f} mL/hr
+"""
     else:
         rate_info = "Please select a valid infusion type."
 
     return f"""
 📊 **PATIENT INFORMATION**  
-• Weight: {int(weight)} kg  
-• Prescribed Dose: {int(dose_per_kg)} mg/kg  
+• Weight: {weight:.1f} kg  
+• Prescribed Dose: {dose_per_kg:.1f} mg/kg  
 • Infusion Type: {infusion_type}  
 
 💉 **DOSAGE CALCULATIONS**  
@@ -128,20 +131,20 @@ Then increase to 600 mL/hr for remainder
 """
 
 def calculate_benlysta(weight):
-    dose = int(weight * 10)
+    dose = round(weight * 10, 1)
     v400 = int(dose // 400)
     remaining = dose - (v400 * 400)
     v120 = math.ceil(remaining / 120) if remaining > 0 else 0
     total_mg = (v400 * 400) + (v120 * 120)
     waste = total_mg - dose
-    total_volume = int((v400 * 5) + (v120 * 1.5))
+    total_volume = round((v400 * 5) + (v120 * 1.5), 1)
 
     bag_size = 250 if weight > 40 else 100
-    remaining_ns = int(bag_size - total_volume)
+    remaining_ns = round(bag_size - total_volume, 1)
 
     return f"""
 📊 **PATIENT INFORMATION**  
-• Weight: {int(weight)} kg  
+• Weight: {weight:.1f} kg  
 • Prescribed Dose: 10 mg/kg  
 
 💊 **DOSAGE CALCULATIONS**  
@@ -163,14 +166,14 @@ def calculate_benlysta(weight):
 """
 
 with st.form("dose_form"):
-    weight = st.number_input("Patient Weight (kg)", min_value=0.0, format="%.0f")
+    weight = st.number_input("Patient Weight (kg)", min_value=0.0, format="%.1f")
     dose = 0
     infusion_type = ""
 
     if tab == "Tepezza":
-        dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.0f")
+        dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.1f")
     elif tab == "Remicade":
-        dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.0f")
+        dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.1f")
         infusion_type = st.selectbox("Select Infusion Type", ["", "Induction", "Standard", "Enhanced"])
 
     submitted = st.form_submit_button("🧮 Calculate")
