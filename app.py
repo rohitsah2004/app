@@ -182,16 +182,16 @@ def calculate_benlysta(weight):
 
 with st.form("dose_form"):
     weight = st.number_input("Patient Weight (kg)", min_value=0.0, format="%.0f")
-    weight = st.number_input("Patient Weight (kg)", min_value=0.0, format="%.1f")
+    
     dose = 0
     infusion_type = ""
 
     if tab == "Tepezza":
         dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.0f")
-        dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.1f")
+        
     elif tab == "Remicade":
         dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.0f")
-        dose = st.number_input("Prescribed Dose (mg/kg)", min_value=0.0, format="%.1f")
+        
         infusion_type = st.selectbox("Select Infusion Type", ["", "Induction", "Standard", "Enhanced"])
 
     submitted = st.form_submit_button("🧮 Calculate")
