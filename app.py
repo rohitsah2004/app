@@ -29,8 +29,7 @@ def calculate_tepezza(weight, dose_per_kg):
 
     return f"""
 📊 **PATIENT INFORMATION**  
-• Weight: {int(weight)} kg  
-• Prescribed Dose: {int(dose_per_kg)} mg/kg  
+
 • Weight: {weight:.1f} kg  
 • Prescribed Dose: {dose_per_kg:.1f} mg/kg  
 
