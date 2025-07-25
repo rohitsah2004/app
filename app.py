@@ -19,7 +19,7 @@ def validate_input(weight, dose):
 def calculate_tepezza(weight, dose_per_kg):
     total_dose = float(weight * dose_per_kg)
     volume_required = float(total_dose / 47.6)
-    total_dose = float(weight * dose_per_kg, 1)
+    total_dose = float(weight * dose_per_kg)
     volume_required = float(total_dose / 47.6, 1)
     vials_needed = math.ceil(total_dose / 500)
     iv_bag_size = "100 mL" if total_dose <= 1800 else "250 mL"
