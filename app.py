@@ -20,12 +20,12 @@ def calculate_tepezza(weight, dose_per_kg):
     total_dose = float(weight * dose_per_kg)
     volume_required = float(total_dose / 47.6)
     total_dose = float(weight * dose_per_kg)
-    volume_required = float(total_dose / 47.6, 1)
+    volume_required = float(total_dose / 47.6)
     vials_needed = math.ceil(total_dose / 500)
     iv_bag_size = "100 mL" if total_dose <= 1800 else "250 mL"
     ns_bag_volume = 100 if total_dose <= 1800 else 250
     remaining_ns = float(ns_bag_volume - volume_required)
-    remaining_ns = float(ns_bag_volume - volume_required, 1)
+    remaining_ns = float(ns_bag_volume - volume_required)
 
     return f"""
 📊 **PATIENT INFORMATION**  
